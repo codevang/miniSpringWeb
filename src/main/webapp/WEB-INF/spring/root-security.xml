@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:s="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<s:http auto-config="true" use-expressions="true">
+
+		<!-- 정적 리소스는 모두 접근 허용 -->
+		<s:intercept-url pattern="/resources/**" access="permitAll" />
+
+		<!-- 로그인된 상태에서는 로그인이나 회원가입 화면에 접근 못하도록 함 -->
+		<s:intercept-url pattern="/loginView" access="isAnonymous()" />
+		<s:intercept-url pattern="/registerUserView" access="isAnonymous()" />
+
+		<!-- 관리자페이지는 관리자만 접근 허용 -->
+		<s:intercept-url pattern="/admin/**" access="hasRole('admin')" />
+
+		<!-- 로그인 설정 -->
+		<s:form-login username-parameter="userId" password-parameter="userPw"
+			login-processing-url="/loginAsk" login-page="/loginView"
+			authentication-failure-handler-ref="userLoginFailHandler"
+			authentication-success-handler-ref="userLoginSuccessHandler" />
+
+		<!-- 자동 로그인(커스텀) -->
+		<s:remember-me services-ref="userLoginRememberMeService" key="codevang"
+			authentication-success-handler-ref="userLoginSuccessHandler" />
+
+		<!-- 인증 메일의 인증하기 요청 처리 커스텀 필터 -->
+		<s:custom-filter after="FILTER_SECURITY_INTERCEPTOR" 
+			ref="userLoginRememberMeCertifyingFilter" />
+
+		<!-- 권한이 없어서 금지된 URI 접속할 때 보여줄 페이지(403 에러 페이지 대체) -->
+		<s:access-denied-handler error-page="/" />
+
+		<!-- 로그아웃 설정 -->
+		<s:logout logout-url="/logoutAsk" logout-success-url="/" invalidate-session="true"
+			delete-cookies="true" />
+	</s:http>
+
+	<!-- Custom Remember-me Bean -->
+	<bean id="userLoginRememberMeService"
+		class="hs.spring.hsweb.service.user.UserLoginRememberMeService">
+		<constructor-arg name="key" value="codevang" />
+		<constructor-arg name="userDetailsService" ref="userLoginDetailsService" />
+		<property name="cookieName" value="HSWEB_U_REMEMBER" />
+		<property name="parameter" value="remember-me" />
+		<property name="tokenValiditySeconds" value="60000" />
+	</bean>
+
+	<!-- DB 연동 커스터마이징 Bean -->
+	<s:authentication-manager>
+		<s:authentication-provider ref="userLoginAuthenticationProvider">
+		</s:authentication-provider>
+	</s:authentication-manager>
+
+	<!-- 패스워드 단방향 암호화 -->
+	<bean id="passwordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+</beans>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hs.spring.hsweb.mapper.user.UserRememberMeMapper">
+
+	<!-- Series, Browser 값으로 Token 검색 -->
+	<select id="selectUserToken" parameterType="String" resultType="UserRememberMeVO">
+		select * from
+		user_remember_me where series = #{series}
+	</select>
+
+	<!-- 특정 토큰값의 정보만 삭제(series기준) -->
+	<delete id="deleteOneToken" parameterType="String">
+		delete from user_remember_me where series=#{value}
+	</delete>
+
+	<!-- 사용자의 모든 토큰 정보 삭제(username 기준) -->
+	<delete id="deleteAllUserToken" parameterType="String">
+		delete from user_remember_me where
+		username=#{value}
+	</delete>
+
+	<!-- 새로운 토큰값으로 업데이트 -->
+	<update id="updateUserToken" parameterType="UserRememberMeVO">
+		update user_remember_me set
+		token=#{token},
+		lastUsed=#{lastUsed} where series=#{series}
+	</update>
+
+	<!-- 메일 인증 정보 업데이트 -->
+	<update id="updateUserCertifying" parameterType="String">
+		update user_remember_me set certified="true"
+		where series=#{value}
+	</update>
+
+
+	<!-- 새로운 토큰값 입력 -->
+	<insert id="insertUserToken" parameterType="UserRememberMeVO">
+		insert into user_remember_me values(#{username},
+		#{series}, #{token}, #{lastUsed}, #{certified})
+	</insert>
+</mapper>

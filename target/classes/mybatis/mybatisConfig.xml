@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- VO 클래스와 동일하게 (Table name + VO) -->
+<configuration>
+	<typeAliases>
+		<!-- 회원 정보 -->
+		<typeAlias alias="UserInfoVO" type="hs.spring.hsweb.mapper.vo.user.UserInfoVO" />
+		<!-- Remember-me Token -->
+		<typeAlias alias="UserRememberMeVO"
+			type="hs.spring.hsweb.mapper.vo.user.UserRememberMeVO" />
+	</typeAliases>
+</configuration>

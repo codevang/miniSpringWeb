@@ -1,0 +1,83 @@
+/*!
+ * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
+ */
+
+/* 빨간색 줄있는 메뉴 스타일 */
+.red-line-menu {
+	
+	display: inline-block;
+	font-weight: bold;
+	border-bottom-style: solid;
+	border-bottom-color: purple;
+	border-bottom-width: 3px;
+	font-size: 15pt;
+	height: 45px;
+	/* 안쪽 여백, 위부터 시계방향 */
+	padding: 0px 15px 0px 0px;
+}
+
+/* 빨간색 줄있는 페이지 스타일 */
+.red-line-page {
+	
+	/* 컨테이너 다 채우도록 block으로 지정*/
+	display: block;
+	font-weight: bold;
+	border-bottom-style: solid;
+	border-bottom-color: red;
+	border-bottom-width: 3px;
+	font-size: 16pt;
+	height: 48px;
+}
+
+body {
+	overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+	min-height: 100vh;
+	/*숨길 때 크기 (#sidebar-wrapper .list-group과 같아야 함) */
+	margin-left: -20rem;
+	-webkit-transition: margin .25s ease-out;
+	-moz-transition: margin .25s ease-out;
+	-o-transition: margin .25s ease-out;
+	transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+	/* div 내 글자 세로 정렬 */
+	display: table-cell;
+	vertical-align: bottom;
+	
+	padding: 0.875rem 1.25rem;
+	font-size: 1.2rem;
+	/* div 세로 크기 */
+	height: 10rem;
+}
+
+/* 사이드바 크기 */
+#sidebar-wrapper .list-group {
+	width: 20rem;
+}
+
+#page-content-wrapper {
+	min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+	margin-left: 0;
+}
+
+@media ( min-width : 768px) {
+	#sidebar-wrapper {
+		margin-left: 0;
+	}
+	#page-content-wrapper {
+		min-width: 0;
+		width: 100%;
+	}
+	#wrapper.toggled #sidebar-wrapper {
+		margin-left: -20rem;
+	}
+}

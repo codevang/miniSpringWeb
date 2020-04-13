@@ -19,22 +19,21 @@ import hs.spring.hsweb.mapper.vo.user.UserDetailsVO;
 public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request,
-			HttpServletResponse response, Authentication authentication)
-			throws IOException, ServletException {
-		
-		// 방문자 카운트 증가
+	/**
+	 * 스프링 시큐리티 로그인 성공 후 공통 수행 로직
+	 */
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+			Authentication authentication) throws IOException, ServletException {
+
 		// 필요한 로직 작성
 		// ...
-		
+
 		/* 패스워드 정보 지워주기 */
-		UserDetailsVO userDetails = (UserDetailsVO) authentication
-				.getPrincipal();
+		UserDetailsVO userDetails = (UserDetailsVO) authentication.getPrincipal();
 		if (userDetails != null) {
 			userDetails.setPassword(null);
 		}
-	
-		
+
 		/* 디폴트 URI */
 		String uri = "/";
 
@@ -43,8 +42,7 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 
 		/* 로그인 버튼 눌러 접속했을 경우의 데이터 get */
-		String prevPage = (String) request.getSession()
-				.getAttribute("prevPage");
+		String prevPage = (String) request.getSession().getAttribute("prevPage");
 
 		if (prevPage != null) {
 			request.getSession().removeAttribute("prevPage");
@@ -54,7 +52,7 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
 		if (savedRequest != null) {
 			uri = savedRequest.getRedirectUrl();
 
-		// ""가 아니라면 직접 로그인 페이지로 접속한 것
+			// ""가 아니라면 직접 로그인 페이지로 접속한 것
 		} else if (prevPage != null && !prevPage.equals("")) {
 			uri = prevPage;
 		}

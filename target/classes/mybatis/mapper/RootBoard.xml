@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 전체 게시판 관리 테이블 작업(board_root) -->
+<mapper namespace="hs.spring.hsweb.mapper.board.RootBoardMapper">
+
+	<!-- 게시판 한글 이름 select -->
+	<select id="rootBoardSelectName" parameterType="String" resultType="String">
+		select bBoardName from
+		board_root where bTableName=#{value}
+	</select>
+
+</mapper>

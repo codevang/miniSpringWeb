@@ -10,5 +10,9 @@
 		<!-- Remember-me Token -->
 		<typeAlias alias="UserRememberMeVO"
 			type="hs.spring.hsweb.mapper.vo.user.UserRememberMeVO" />
+		<!-- Basic Board -->
+		<typeAlias alias="BasicBoardVO" type="hs.spring.hsweb.mapper.vo.board.BasicBoardVO" />
+		<!-- 게시판 관리 테이블 -->
+		<typeAlias alias="RootBoardVO" type="hs.spring.hsweb.mapper.vo.board.RootBoardVO" />
 	</typeAliases>
 </configuration>

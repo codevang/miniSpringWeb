@@ -24,9 +24,18 @@ public class UserLoginRememberMeCertifyingEmail {
 	/* 사용자 Email 주소를 DB에서 가져오기 위한 mapper */
 	UserMapper mapper;
 
-	/* 사용자 정보에 등록된 Email로 자동 로그인 인증 메일을 발송 */
-	public boolean sendSecondCertifyingEmail(String username, String series, String token, String ip,
-			String userAgent) {
+	/**
+	 * 사용자 정보에 등록된 Email로 자동 로그인 인증 메일을 발송
+	 * 
+	 * @param username  : ID
+	 * @param series    : 인증 기기 id
+	 * @param token     : 자동 로그인 쿠키 인증 토큰
+	 * @param ip        : 사용자 IP
+	 * @param userAgent : 사용자 Agent
+	 * @return
+	 */
+	public boolean sendSecondCertifyingEmail(String username, String series, String token,
+			String ip, String userAgent) {
 
 		// DB에서 사용자 정보 가져옴
 		UserInfoVO userInfo = mapper.selectUserInfoOne(username);
@@ -48,14 +57,12 @@ public class UserLoginRememberMeCertifyingEmail {
 		// 메일 정보 셋팅
 		String from = "codevang@naver.com";
 		String to = userInfo.getUserEmail();
-		String certifyingLink = "http://localhost//rememberMeCertifying?key="
-				+ encodedSeries;
-		String rollbackLink = "http://localhost/logoutAsk?logoutAllEmail="
-				+ encodedUsername;
+		String certifyingLink = "http://localhost//rememberMeCertifying?key=" + encodedSeries;
+		String rollbackLink = "http://localhost/logoutAsk?logoutAllEmail=" + encodedUsername;
 
 		// 메일 내용 VO 객체
-		UserRememberMeEmailVO emailVO = new UserRememberMeEmailVO(ip, userAgent,
-				certifyingLink, rollbackLink);
+		UserRememberMeEmailVO emailVO = new UserRememberMeEmailVO(ip, userAgent, certifyingLink,
+				rollbackLink);
 
 		String subject = emailVO.getSubject();
 		String content = emailVO.getContent();
@@ -82,7 +89,12 @@ public class UserLoginRememberMeCertifyingEmail {
 		return false;
 	}
 
-	/* username(ID) 인코딩 */
+	/**
+	 * 여러 개의 문자열을 한 문자열로 인코딩
+	 * 
+	 * @param values : 암호화시킬 문자열 배열
+	 * @return
+	 */
 	public String encodeValues(String[] values) {
 
 		// 값들을 붙여서 하나로 만들어 줌
@@ -107,7 +119,12 @@ public class UserLoginRememberMeCertifyingEmail {
 		return sb.toString();
 	}
 
-	/* username 디코딩 */
+	/**
+	 * 문자열 디코딩해서 원본 문자열 배열로 분리
+	 * 
+	 * @param encodedValue
+	 * @return
+	 */
 	public String[] decodeValues(String encodedValue) {
 
 		// 인코딩할 때 빼준 '='을 다시 붙여줌

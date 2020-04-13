@@ -1,5 +1,7 @@
 package hs.spring.hsweb.controller;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,33 +9,45 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import hs.spring.hsweb.mapper.vo.user.UserInfoVO;
 import hs.spring.hsweb.service.user.UserService;
 
-/* 메인, 사용자 관련 */
 @Controller
+/* 메인, 사용자 관련 */
 public class UserController {
 
 	@Autowired
 	UserService service;
 
-	/* 메인 페이지 */
+	/**
+	 * 메인 화면
+	 * 
+	 * @return
+	 */
 	@RequestMapping("/")
 	public String main() {
 
 		return "main";
 	}
 
-	/* 메일 인증 리다이렉트 */
+	/**
+	 * 메일 인증 접속 시 리다이렉트
+	 * 
+	 * @return
+	 */
 	@RequestMapping("/rememberMeCertifying")
 	public String rememberMeCertifying() {
 
 		return "redirect:/";
 	}
 
-	/* 로그인 화면 요청 */
+	/**
+	 * 로그인 단순 화면 요청
+	 * 
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/loginView")
 	public String loginView(HttpServletRequest request) {
 
@@ -46,15 +60,25 @@ public class UserController {
 		return "/user/login";
 	}
 
-	/* 회원가입 화면 요청 */
-	@RequestMapping(value = "/registerUserView", method = RequestMethod.GET)
+	/**
+	 * 회원가입 단순 화면 요청
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/registerUserView")
 	public String registerUserView() {
 
 		return "/user/registerUser";
 	}
 
-	/* 회원가입 등록 요청 */
-	@RequestMapping(value = "/registerAsk", method = RequestMethod.POST)
+	/**
+	 * 회원가입 등록 요청
+	 * 
+	 * @param userInfo : 입력받은 정보 VO
+	 * @param model    : 회원가입 결과 메세지 전달
+	 * @return
+	 */
+	@RequestMapping("/user/registerAsk")
 	public String registerAsk(@ModelAttribute UserInfoVO userInfo, Model model) {
 
 		// 회원정보 및 디폴트 권한 입력
@@ -70,8 +94,18 @@ public class UserController {
 		}
 	}
 
-	/* 회원정보 조회 */
+	/**
+	 * 회원정보 조회 요청
+	 * 
+	 * @param prin  : 사용자 권한 객체
+	 * @param model : 회원정보 전달
+	 * @return
+	 */
+	@RequestMapping("/user/userInfoAsk")
+	public String userInfoAsk(Principal prin, Model model) {
 
-	/* 회원정보 수정 */
-
+		UserInfoVO userInfo = service.selectUserInfoOne(prin.getName());
+		model.addAttribute("userInfo", userInfo);
+		return "/user/userInfo";
+	}
 }

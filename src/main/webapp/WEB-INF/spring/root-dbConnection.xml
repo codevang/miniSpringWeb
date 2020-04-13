@@ -56,13 +56,13 @@
 			<tx:method name="delete*" rollback-for="Exception" />
 		</tx:attributes>
 	</tx:advice>
-	
+
 	<aop:config>
 		<!-- Service 클래스에만 적용되도록 함 -->
-		<aop:pointcut id="transactionPointcut" 
-				expression="within(hs.spring.hsweb.service..*)" />
-		
-		<aop:advisor id="transactionAdvisor" 
-				pointcut-ref="transactionPointcut" advice-ref="txAdvice" />
+		<aop:pointcut id="transactionPointcut"
+			expression="within(hs.spring.hsweb.service..*)" />
+
+		<aop:advisor id="transactionAdvisor" pointcut-ref="transactionPointcut"
+			advice-ref="txAdvice" />
 	</aop:config>
 </beans>

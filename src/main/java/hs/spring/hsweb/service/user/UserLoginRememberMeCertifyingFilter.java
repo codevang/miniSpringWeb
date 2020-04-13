@@ -17,7 +17,7 @@ import hs.spring.hsweb.mapper.user.UserRememberMeMapper;
 import hs.spring.hsweb.mapper.vo.user.UserRememberMeVO;
 
 @Service
-/* 인증 메일에서 '인증하기' 누를 경우 해당 토큰을 인증해주는 필터 */
+/* 인증 메일에서 '인증하기' 누를 경우 해당 URL을 받아 토큰을 인증해주는 필터 */
 public class UserLoginRememberMeCertifyingFilter extends GenericFilterBean {
 
 	@Autowired
@@ -29,9 +29,12 @@ public class UserLoginRememberMeCertifyingFilter extends GenericFilterBean {
 	/* DB 작업을 위한 mapper */
 	UserRememberMeMapper mapper;
 
+	/**
+	 * 필터 (인터셉터 필터 직후 작동)
+	 */
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 
 		HttpServletRequest req = (HttpServletRequest) request;
 		String uri = req.getRequestURI();

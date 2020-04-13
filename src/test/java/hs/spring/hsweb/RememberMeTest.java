@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.codec.Base64;
-import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.rememberme.InvalidCookieException;
 import org.springframework.util.StringUtils;
 

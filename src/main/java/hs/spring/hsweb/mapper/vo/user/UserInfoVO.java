@@ -1,5 +1,6 @@
 package hs.spring.hsweb.mapper.vo.user;
 
+/* 사용자 정보 VO (user_info 테이블) */
 public class UserInfoVO {
 
 	private String userId;

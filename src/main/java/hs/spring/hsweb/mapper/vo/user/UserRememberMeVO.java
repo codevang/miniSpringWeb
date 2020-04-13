@@ -2,7 +2,7 @@ package hs.spring.hsweb.mapper.vo.user;
 
 import java.util.Date;
 
-/* Remember-me 인증 DB 데이터 저장 객체 */
+/* Remember-me Token VO */
 public class UserRememberMeVO {
 
 	private String username;

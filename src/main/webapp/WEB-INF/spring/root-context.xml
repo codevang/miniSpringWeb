@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 
 	<!-- 빈(Bean) 생성 및 의존성 주입 어노테이션 스캔 -->
-	<context:component-scan base-package="hs.spring.hsweb.*" />
+	<context:component-scan base-package="hs.spring.hsweb.**" />
 
 	<!-- AOP 스캔 -->
 	<aop:aspectj-autoproxy />
@@ -22,7 +22,7 @@
 		<property name="host" value="smtp.naver.com" />
 		<property name="port" value="465" />
 		<property name="username" value="codevang" />
-		<property name="password" value="password" />
+		<property name="password" value="fpznldpa1!" />
 		<property name="defaultEncoding" value="utf-8" />
 		<property name="javaMailProperties">
 			<props>

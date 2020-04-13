@@ -39,8 +39,8 @@ public class UserRememberMeEmailVO {
 	// 내용 완성 (추후 프로퍼티로 대체)
 	private void setContent() {
 
-		content = "<p>IP :&nbsp;" + ip + "</p><p>Agent :&nbsp;" + userAgent
-				+ "</p><p><br></p><p>" + "위 주소에서 로그인을 완료하였고, "
+		content = "<p>IP :&nbsp;" + ip + "</p><p>Agent :&nbsp;" + userAgent + "</p><p><br></p><p>"
+				+ "위 주소에서 로그인을 완료하였고, "
 				+ "자동 로그인을 요청했습니다.</p><p><br></p><p>인증하기를 원하시면 아래 \"인증하기\"를 클릭해주세요.</p>"
 				+ "<p><br></p><p><a href=\"" + certifyingLink
 				+ "\" target=\"_blank\" style=\"cursor: "

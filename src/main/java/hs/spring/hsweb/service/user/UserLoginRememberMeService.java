@@ -40,9 +40,11 @@ public class UserLoginRememberMeService extends AbstractRememberMeServices {
 	}
 
 	@Override
-	/* 첫 로그인 시 쿠키 발행 및 토큰정보 DB 업데이트 */
-	protected void onLoginSuccess(HttpServletRequest request,
-			HttpServletResponse response, Authentication successfulAuthentication) {
+	/**
+	 * 첫 로그인 시 쿠키 발행 및 토큰정보 DB 업데이트
+	 */
+	protected void onLoginSuccess(HttpServletRequest request, HttpServletResponse response,
+			Authentication successfulAuthentication) {
 
 		// 사용자 쿠키 겁색
 		String cookieValue = super.extractRememberMeCookie(request);
@@ -87,15 +89,16 @@ public class UserLoginRememberMeService extends AbstractRememberMeServices {
 				newTokenValue, ip, userAgent);
 
 		if (!isSended) {
-			request.getSession().setAttribute("rememberMeMsg",
-					"메일 전송에 실패했습니다. 등록된 메일 주소를 확인해주세요.");
+			request.getSession().setAttribute("rememberMeMsg", "메일 전송에 실패했습니다. 등록된 메일 주소를 확인해주세요.");
 		}
 	}
 
 	@Override
-	/* 자동 로그인 로직 - 쿠키 유효성 검증 및 사용자 정보 객체 리턴 */
-	protected UserDetails processAutoLoginCookie(String[] cookieTokens,
-			HttpServletRequest request, HttpServletResponse response)
+	/**
+	 * 자동 로그인 로직 - 쿠키 유효성 검증 및 사용자 정보 객체 리턴
+	 */
+	protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request,
+			HttpServletResponse response)
 			throws RememberMeAuthenticationException, UsernameNotFoundException {
 
 		// 쿠키 : series, token
@@ -125,14 +128,14 @@ public class UserLoginRememberMeService extends AbstractRememberMeServices {
 		}
 
 		// DB에 series는 있는데 certified가 null인 경우 (메일 인증되지 않은 쿠키)
-		if (!rememberMeVO.getCertified().equals("true")) {
+		if (rememberMeVO.getCertified() == null) {
 
 			throw new RememberMeAuthenticationException("메일 인증되지 않은 쿠키");
 		}
 
 		// 유효기간 검증
-		if (rememberMeVO.getLastUsed().getTime()
-				+ getTokenValiditySeconds() * 1000L < System.currentTimeMillis()) {
+		if (rememberMeVO.getLastUsed().getTime() + getTokenValiditySeconds() * 1000L < System
+				.currentTimeMillis()) {
 
 			// DB에서 해당 데이터 삭제
 			mapper.deleteOneToken(cookieSeries);
@@ -162,7 +165,9 @@ public class UserLoginRememberMeService extends AbstractRememberMeServices {
 	}
 
 	@Override
-	/* 로그아웃 시 쿠키/DB 정보 삭제 */
+	/**
+	 * 로그아웃 시 자동 로그인 관련 쿠키/DB 정보 삭제
+	 */
 	public void logout(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) {
 
@@ -176,7 +181,7 @@ public class UserLoginRememberMeService extends AbstractRememberMeServices {
 				mapper.deleteAllUserToken(username);
 			}
 
-		// 인증 메일에서 모든 기기 로그아웃 요청한 경우
+			// 인증 메일에서 모든 기기 로그아웃 요청한 경우
 		} else if (request.getParameter("logoutAllEmail") != null) {
 
 			// 디코딩 후 사용자 토큰 데이터 모두 삭제
@@ -186,8 +191,8 @@ public class UserLoginRememberMeService extends AbstractRememberMeServices {
 				mapper.deleteAllUserToken(username[0]);
 			}
 
-		// 현재 기기 로그아웃 요청일 경우
-		// series 기준으로 DB의 데이터 삭제
+			// 현재 기기 로그아웃 요청일 경우
+			// series 기준으로 DB의 데이터 삭제
 		} else {
 
 			// DB token 삭제 (username이 아닌 해당 series의 정보만 삭제)

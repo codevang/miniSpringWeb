@@ -14,7 +14,7 @@
 		<!-- 로그인된 상태에서는 로그인이나 회원가입 화면에 접근 못하도록 함 -->
 		<s:intercept-url pattern="/loginView" access="isAnonymous()" />
 		<s:intercept-url pattern="/registerUserView" access="isAnonymous()" />
-
+	
 		<!-- 관리자페이지는 관리자만 접근 허용 -->
 		<s:intercept-url pattern="/admin/**" access="hasRole('admin')" />
 
@@ -33,11 +33,14 @@
 			ref="userLoginRememberMeCertifyingFilter" />
 
 		<!-- 권한이 없어서 금지된 URI 접속할 때 보여줄 페이지(403 에러 페이지 대체) -->
-		<s:access-denied-handler error-page="/" />
+<!-- 		<s:access-denied-handler error-page="/" /> -->
 
 		<!-- 로그아웃 설정 -->
 		<s:logout logout-url="/logoutAsk" logout-success-url="/" invalidate-session="true"
 			delete-cookies="true" />
+			
+		<!-- CSRF -->
+		<s:csrf/>
 	</s:http>
 
 	<!-- Custom Remember-me Bean -->
@@ -47,7 +50,7 @@
 		<constructor-arg name="userDetailsService" ref="userLoginDetailsService" />
 		<property name="cookieName" value="HSWEB_U_REMEMBER" />
 		<property name="parameter" value="remember-me" />
-		<property name="tokenValiditySeconds" value="60000" />
+		<property name="tokenValiditySeconds" value="600000" />
 	</bean>
 
 	<!-- DB 연동 커스터마이징 Bean -->

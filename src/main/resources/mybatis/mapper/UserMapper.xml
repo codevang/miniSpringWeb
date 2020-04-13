@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 
 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
+<!-- 사용자 정보 테이블(user_info) 작업 -->
 <mapper namespace="hs.spring.hsweb.mapper.user.UserMapper">
 
 	<!-- 사용자 존재 여부 조회 -->

@@ -11,15 +11,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 /* Spring Security 로그인을 위한 UserDetails VO 객체 */
 public class UserDetailsVO implements UserDetails {
 
-	// 안만들어도 상관없지만 Warning이 발생함
 	private static final long serialVersionUID = 1L;
 
 	private String username; // ID
 	private String password; // PW
-	private String userFullName; // 이름
-	private List<GrantedAuthority> authorities;
+	private String userFullName; // 사용자 이름
+	private List<GrantedAuthority> authorities; // 권한
 
-		
 	// setter
 	public void setUsername(String username) {
 		this.username = username;
@@ -29,12 +27,12 @@ public class UserDetailsVO implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	// setter
 	public String getUserFullName() {
 		return userFullName;
 	}
-	
+
 	// getter
 	public void setUserFullName(String userFullName) {
 		this.userFullName = userFullName;

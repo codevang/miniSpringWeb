@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 기본형 게시판 DB 작업 -->
+<mapper namespace="hs.spring.hsweb.mapper.board.BasicBoardMapper">
+
+	<!-- 게시물 Bid MAX값 select -->
+	<select id="selectBoardBidMax" parameterType="String" resultType="Integer">
+		select max(bId) as max from
+		${value}
+	</select>
+
+	<!-- 게시물 갯수 Count(bId) select -->
+	<select id="selectBoardCount" parameterType="String" resultType="Long">
+		select count(bId) as count
+		from ${value}
+	</select>
+
+	<!-- 게시물 하나 select -->
+	<select id="selectBoardOne" parameterType="HashMap" resultType="BasicBoardVO">
+		select * from ${boardName}
+		where bId = ${bId}
+	</select>
+
+	<!-- 조회수 업데이트 -->
+	<update id="updateBHit" parameterType="HashMap">
+		update ${boardName} set bHit = bHit + 1 where
+		bId=${bId}
+	</update>
+
+	<!-- 게시물 리스트 select -->
+	<select id="selectBoardList" parameterType="HashMap" resultType="BasicBoardVO">
+		select bId, bIndent, bTitle,
+		bUserId,
+		bUsername, bDate, bHit, bGood, bHate from ${boardName}
+		order by bGroup desc, bOrder limit
+		${startContentIndex},${CONTENTS_PER_PAGE}
+	</select>
+
+	<!-- 조회순 게시물 리스트 select -->
+	<select id="selectBoardListOderbyBHit" parameterType="String" resultType="BasicBoardVO">
+		select * from
+		${value} order by bHit desc, bId desc limit 0, 5;
+	</select>
+
+	<!-- 공감순 게시물 리스트 select -->
+	<select id="selectBoardListOderbyBGood" parameterType="String" resultType="BasicBoardVO">
+		select * from
+		${value} order by bGood desc, bId desc limit 0, 5;
+	</select>
+
+	<!-- 게시물 작성 insert -->
+	<insert id="insertBoardInfo" parameterType="HashMap">
+		insert into ${boardName} values (${boardVO.bId},
+		${boardVO.bGroup}, ${boardVO.bOrder}, #{boardVO.bIndent},
+		#{boardVO.bTitle},#{boardVO.bContent},#{boardVO.bUserId},
+		#{boardVO.bUsername},#{boardVO.bDate},${boardVO.bHit},
+		${boardVO.bGood},${boardVO.bHate})
+	</insert>
+
+	<!-- bOrder 업데이트 -->
+	<update id="updateBOrderNum" parameterType="HashMap">
+		update ${boardName} set bOrder = bOrder + 1 where
+		bGroup = ${bGroup} and bOrder >= ${bOrder}
+	</update>
+
+	<!-- bGood / bHate 업데이트(공감/비공감) -->
+	<update id="updateBGoodBHate" parameterType="HashMap">
+		update ${boardName} set ${sort} = ${sort} + 1
+		where bId=${bId}
+	</update>
+
+	<!-- bGood / bHate select(공감/비공감) -->
+	<select id="selectBGoodBHate" parameterType="HashMap" resultType="Integer">
+		select ${sort} from
+		${boardName}
+		where bId = ${bId}
+	</select>
+
+	<!-- 게시물 삭제 delete -->
+	<delete id="deleteBoardContent" parameterType="HashMap">
+		delete from ${boardName} where bId=${bId}
+	</delete>
+</mapper>
